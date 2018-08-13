@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
+//import bindActionCreators from '../utils/bindActionCreator';
 import { connect } from 'react-redux';
 //import connect from '../utils/connect';
 import { select } from '../actions/index';

@@ -13,7 +13,7 @@ class Details extends Component {
         <img src={this.props.car.img} /> <br />
         <p> {this.props.car.desc} </p>
         <p> Speed: {this.props.car.speed},
-                weigh: {this.props.car.weight} </p>
+            weigh: {this.props.car.weigh} </p>
       </div>
     )
   }
