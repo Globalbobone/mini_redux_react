@@ -5,7 +5,7 @@ module.exports = {
     devServer: {
         inline: true,
         contentBase: './src',
-        port: 3000
+        port: 3010
     },
     devtool: 'cheap-module-eval-source-map',
     entry: './code/js/index.js',

@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 //import connect from '../utils/connect';
+///import {createStore} from 'redux';
+//import createStore from '../utils/store';
+//import allReducers from '../reducers';
 
+//const store = createStore(allReducers);
+
+//console.log(store.getState());
+//console.log(store.cars);
 class Details extends Component {
   render() {
     if (!this.props.car) {
@@ -19,7 +26,7 @@ class Details extends Component {
   }
 };
 
-function mapStateToProps(state) {
+let mapStateToProps = (state) => {
   return {
     car: state.active
   }

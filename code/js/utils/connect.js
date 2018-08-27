@@ -1,30 +1,35 @@
-import React, { Component } from 'react';
-import createStore from '../utils/store';
-import allReducers from '../reducers';
+import React from 'react';
+import { bindActionCreator } from './bindActionCreator';
+import { withStore } from './withStore';
 
-const store = createStore(allReducers);
-
-export default function connect(mapStateToProps, mapDispatchToProps) {
-    return function (WrappedComponent) {
-      return class extends React.Component {
-        render() {
-          return (
-            <WrappedComponent
-              {...this.props}
-              {...mapStateToProps(store.getState(), this.props)}
-              {...mapDispatchToProps(store.dispatch, this.props)}
-            />
-          )
-        }
-        componentDidMount() {
-          this.unsubscribe = store.subscribe(this.handleChange.bind(this))
-        }
-        componentWillUnmount() {
-          this.unsubscribe()
-        }
-        handleChange() {
-          this.forceUpdate()
-        }
+export default function connect(mapStateToProps = () => { }, mapDispatchToProps = {}) {
+  return function (WrappedComponent) {
+    class Connect extends React.Component {
+      render() {
+        const { store } = this.props;
+        const stateToProps = mapStateToProps(store.getState(), this.props);
+        const actionsToProps = Object.keys(mapDispatchToProps).reduce((a, name) => {
+          return Object.assign({}, a, {
+            [name]: bindActionCreator(mapDispatchToProps[name], store.dispatch)
+          })
+        }, {});
+        return (
+          <WrappedComponent
+            {...stateToProps}
+            {...actionsToProps}
+          />
+        )
+      }
+      componentDidMount() {
+        this.unsubscribe = this.props.store.subscribe(this.handleChange.bind(this))
+      }
+      componentWillUnmount() {
+        this.unsubscribe()
+      }
+      handleChange() {
+        this.forceUpdate()
       }
     }
+    return withStore(Connect);
   }
+}

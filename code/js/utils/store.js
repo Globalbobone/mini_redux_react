@@ -1,8 +1,9 @@
 //import React, { Component } from 'react';
 
-const createStore = (reducer, initialState) => {
+const createStore = (reducer, initialState = {}) => {
+
   let currentReducer = reducer;
-  let currentState = initialState;
+  let currentState = Object.assign({}, initialState, reducer(initialState, { type: '@@INIT' }));
   let listener = () => { };
 
   return {
